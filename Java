@@ -1,0 +1,90 @@
+class Quiz {
+  constructor(container, questions) {
+    this.container = container;
+    this.questions = questions;
+    this.displayQuiz();
+  }
+
+  displayQuiz() {
+    this.questions.forEach((question, index) => {
+      const questionElement = document.createElement("div");
+      questionElement.innerHTML = `<strong>${index + 1}. ${question.question}</strong>`;
+      this.container.appendChild(questionElement);
+
+      question.options.forEach((option) => {
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="radio" name="question-${index + 1}" value="${option}"> ${option}`;
+        this.container.appendChild(label);
+      });
+    });
+  }
+}
+
+class Poll {
+  constructor(container, options) {
+    this.container = container;
+    this.options = options;
+    this.displayPoll();
+  }
+
+  displayPoll() {
+    this.options.forEach((option) => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="radio" name="poll" value="${option}"> ${option}`;
+      this.container.appendChild(label);
+    });
+  }
+}
+
+class LiveChat {
+  constructor(widget, header, input, sendMessageBtn) {
+    this.widget = widget;
+    this.header = header;
+    this.input = input;
+    this.sendMessageBtn = sendMessageBtn;
+    this.initEventListeners();
+  }
+
+  initEventListeners() {
+    this.header.addEventListener("click", () => {
+      this.widget.style.display = this.widget.style.display === "none" ? "flex" : "none";
+    });
+
+    this.sendMessageBtn.addEventListener("click", () => {
+      const message = this.input.value.trim();
+      if (message.length) {
+        // Implement your live chat functionality here
+        alert(`Message sent: ${message}`);
+        this.input.value = "";
+      }
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const quizContainer = document.getElementById("quiz-container");
+  const pollContainer = document.getElementById("poll-container");
+  const chatWidget = document.getElementById("chat-widget");
+  const chatHeader = document.getElementById("chat-header");
+  const chatInput = document.getElementById("chat-input");
+  const sendMessageBtn = document.getElementById("send-message");
+
+  const questions = [
+    {
+      question: "What is the capital of France?",
+      options: ["Paris", "London", "Rome", "Berlin"],
+      correctAnswer: "Paris",
+    },
+    {
+      question: "What is 2 + 2?",
+      options: ["3", "4", "5", "6"],
+      correctAnswer: "4",
+    },
+  ];
+
+  const pollOptions = ["Option 1", "Option 2", "Option 3"];
+
+  const quiz = new Quiz(quizContainer, questions);
+  const poll = new Poll(pollContainer, pollOptions);
+  const liveChat = new LiveChat(chatWidget, chatHeader, chatInput, sendMessageBtn);
+});
